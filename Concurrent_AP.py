@@ -64,12 +64,15 @@ def memory():
         Holds the current values for the total, free and used memory of the system.
     """
 
-    mem_info = dict()
+    try:
+      return psutil.virtual_memory().available
+    except:
+      mem_info = dict()
 
-    for k, v in psutil.virtual_memory().__dict__.items():
-           mem_info[k] = int(v)
-           
-    return mem_info
+      for k, v in psutil.virtual_memory().__dict__.items():
+            mem_info[k] = int(v)
+            
+      return mem_info['available']
 
 
 def get_chunk_size(N, n):
@@ -90,7 +93,7 @@ def get_chunk_size(N, n):
         The size of the dimension orthogonal to the one of size 'N'. 
     """
 
-    mem_free = memory()['free']
+    mem_free = memory()
     if mem_free > 60000000:
         chunk_size = int(((mem_free - 10000000) * 1000) / (4 * n * N))
         return chunk_size
