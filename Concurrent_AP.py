@@ -900,7 +900,7 @@ def get_cluster_labels(hdf5_file, N_processes):
             A = fileh.root.aff_prop_group.availabilities
             R = fileh.root.aff_prop_group.responsibilities
     
-            N = A.nrows
+            N = int(A.nrows)
             diag_ind = np.diag_indices(N)
             
             a = A[diag_ind]
